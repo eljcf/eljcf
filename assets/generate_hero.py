@@ -10,6 +10,7 @@ THEMES = {
         "secondary": "#6F7F74",
         "construction": "#B8C2BA",
         "accent": "#B54A38",
+        "button_breathe": "#2F6553",
     },
     "dark": {
         "surface": "#10231C",
@@ -18,6 +19,7 @@ THEMES = {
         "secondary": "#91A398",
         "construction": "#395249",
         "accent": "#D06A53",
+        "button_breathe": "#C8D5CC",
     },
 }
 
@@ -54,6 +56,17 @@ PIXEL_GLYPHS = {
     " ": ["00000"] * 7,
 }
 
+RESUME_GLYPHS = {
+    "V": ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+    "i": ["00100", "00000", "00100", "00100", "00100", "00100", "01110"],
+    "e": ["00000", "00000", "01110", "10001", "11111", "10000", "01111"],
+    "w": ["00000", "00000", "10001", "10001", "10101", "10101", "01010"],
+    "r": ["00000", "00000", "01110", "10001", "10000", "10000", "10000"],
+    "s": ["00000", "00000", "01111", "10000", "01110", "00001", "11110"],
+    "u": ["00000", "00000", "10001", "10001", "10001", "10001", "01110"],
+    "m": ["00000", "00000", "11010", "10101", "10101", "10101", "10101"],
+}
+
 STYLE = '''
   .mono { font-family: "SFMono-Regular", Menlo, Consolas, monospace; }
   .serif { font-family: Georgia, "Times New Roman", serif; }
@@ -62,11 +75,11 @@ STYLE = '''
 '''
 
 
-def pixel_text(text, x, y, scale, color):
+def pixel_text(text, x, y, scale, color, glyph_set=PIXEL_GLYPHS):
     rects = []
     cursor = x
     for char in text:
-        glyph = PIXEL_GLYPHS[char]
+        glyph = glyph_set[char]
         for row, line in enumerate(glyph):
             for column, bit in enumerate(line):
                 if bit == "1":
@@ -140,6 +153,36 @@ def cursor(y, height, frames, total, window, color):
   </rect>'''
 
 
+def resume_button(theme):
+    foreground = theme["surface"]
+    text = (
+        pixel_text("View", 100, 298, 3, foreground, RESUME_GLYPHS)
+        + pixel_text("resume", 181, 298, 3, foreground, RESUME_GLYPHS)
+    )
+    arrow_parts = [
+        (322, 298, 6, 26),
+        (322, 318, 26, 6),
+        (328, 312, 6, 6),
+        (334, 306, 6, 6),
+        (340, 300, 6, 6),
+        (346, 294, 6, 6),
+        (352, 288, 6, 6),
+    ]
+    arrow = "".join(
+        f'<rect x="{x}" y="{y}" width="{width}" height="{height}"/>'
+        for x, y, width, height in arrow_parts
+    )
+    return f'''<path d="M78 286H374V290H382V342H374V350H78V346H70V294H78Z" fill="{theme['accent']}"/>
+    <path d="M78 278H374V282H382V334H374V342H78V338H70V286H78Z" fill="{theme['primary']}">
+      <animate attributeName="fill" values="{theme['primary']};{theme['button_breathe']};{theme['primary']}" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <g aria-label="View resume" shape-rendering="crispEdges">{text}</g>
+    <g fill="{foreground}" shape-rendering="crispEdges">
+      <animateTransform attributeName="transform" type="translate" values="6 -6;0 0;6 -6" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" dur="2.4s" repeatCount="indefinite"/>
+      {arrow}
+    </g>'''
+
+
 def hero_svg(theme_name):
     theme = THEMES[theme_name]
     frames, windows, final_start, total = typing_timeline()
@@ -165,9 +208,7 @@ def hero_svg(theme_name):
     <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
     <text class="serif" x="66" y="198" fill="{theme['accent']}" font-size="58" font-style="italic">I'm Raz.</text>
     <text class="mono" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Make a difference to AGI for humanity.&lt;/p&gt;</text>
-    <rect x="70" y="286" width="254" height="50" fill="{theme['primary']}"/>
-    <rect x="70" y="286" width="6" height="50" fill="{theme['accent']}"/>
-    <text class="mono" x="100" y="318" fill="{theme['surface']}" font-size="14" font-weight="600" letter-spacing="1.5">VIEW RESUME ↗</text>
+    {resume_button(theme)}
   </g>
   {monogram(theme)}
   {spine(360, theme, 330)}
