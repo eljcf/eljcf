@@ -150,7 +150,7 @@ def hero_svg(theme_name):
   </defs>
   <rect width="1600" height="360" fill="{theme['surface']}"/>
   <g class="mono" font-size="11" letter-spacing="2.0" fill="{theme['secondary']}">
-    <text x="70" y="45">AI PRODUCT MANAGER</text><text x="1530" y="45" text-anchor="end">RAZ / 2026</text>
+    <text x="1530" y="45" text-anchor="end">RAZ / 2026</text>
   </g>
   <g clip-path="url(#typing-clip)">
     <g opacity="0">{pixel_text("Hello world.", 70, 90, 6, theme['primary'])}{visibility(*windows[0])}</g>
