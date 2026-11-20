@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 import sys
 
@@ -40,6 +41,46 @@ THEMES = {
 }
 
 
+def apply_contribution_year(svg, contribution_path):
+    from datetime import date
+
+    data = json.loads(contribution_path.read_text(encoding="utf-8"))
+    calendar = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+    days = [day for week in calendar["weeks"] for day in week["contributionDays"]]
+    matches = list(re.finditer(r'<rect\b[^>]*class="c(?: c\d)?"[^>]*/>', svg))
+
+    animated_cells = {}
+    for match in matches:
+        tag = match.group(0)
+        class_match = re.search(r'class="c (c\d)"', tag)
+        x_match = re.search(r'x="([\d.]+)"', tag)
+        y_match = re.search(r'y="([\d.]+)"', tag)
+        if class_match and x_match and y_match:
+            animated_cells[(x_match.group(1), y_match.group(1))] = class_match.group(1)
+
+    levels = {"NONE": 0, "FIRST_QUARTILE": 1, "SECOND_QUARTILE": 2, "THIRD_QUARTILE": 3, "FOURTH_QUARTILE": 4}
+    cells = []
+    for week_index, week in enumerate(calendar["weeks"]):
+        for day in week["contributionDays"]:
+            day_date = date.fromisoformat(day["date"])
+            weekday = (day_date.weekday() + 1) % 7
+            x = 2 + week_index * 16
+            y = 2 + weekday * 16
+            level = levels[day["contributionLevel"]]
+            animation_class = animated_cells.get((str(x), str(y)))
+            class_name = f"c {animation_class}" if animation_class else "c"
+            cells.append(
+                f'<rect class="{class_name}" x="{x}" y="{y}" rx="2" ry="2" style="fill:var(--c{level})"/>'
+            )
+
+    if not matches:
+        raise SystemExit("contribution grid not found")
+    svg = svg[: matches[0].start()] + "".join(cells) + svg[matches[-1].end() :]
+    active_days = sum(day["contributionCount"] > 0 for day in days)
+    print(f"Applied {days[0]['date']}..{days[-1]['date']}: {len(days)} cells, {active_days} active days, {calendar['totalContributions']} contributions")
+    return svg
+
+
 def main():
     source = Path(sys.argv[1])
     theme_name = sys.argv[2]
@@ -48,6 +89,9 @@ def main():
 
     for old, new in theme["colors"].items():
         svg = re.sub(re.escape(old), new, svg, flags=re.IGNORECASE)
+
+    if len(sys.argv) > 3:
+        svg = apply_contribution_year(svg, Path(sys.argv[3]))
 
     match = re.search(r'viewBox="(-?[\d.]+) (-?[\d.]+) ([\d.]+) ([\d.]+)"', svg)
     if not match:
