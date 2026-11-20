@@ -79,7 +79,7 @@ def typing_timeline():
     sentences = [
         {"count": 12, "width": 36.0, "type": 0.075, "delete": 0.045},
         {"count": 8, "width": 34.0, "type": 0.09, "delete": 0.05},
-        {"count": 31, "width": 12.0, "type": 0.05, "delete": 0.028},
+        {"count": 45, "width": 12.0, "type": 0.05, "delete": 0.028},
     ]
     frames = [(0.0, 0.0)]
     windows = []
@@ -143,7 +143,7 @@ def cursor(y, height, frames, total, window, color):
 def hero_svg(theme_name):
     theme = THEMES[theme_name]
     frames, windows, final_start, total = typing_timeline()
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 360" width="1600" role="img" aria-label="Hello world. I'm Raz. Product Manager for AGI.">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 360" width="1600" role="img" aria-label="Hello world. I'm Raz. Make a difference to AGI for humanity.">
   <defs>
     <style>{STYLE}</style>
     <clipPath id="typing-clip"><rect x="70" y="72" width="0" height="115">{clip_animation(frames, total)}</rect></clipPath>
@@ -155,7 +155,7 @@ def hero_svg(theme_name):
   <g clip-path="url(#typing-clip)">
     <g opacity="0">{pixel_text("Hello world.", 70, 90, 6, theme['primary'])}{visibility(*windows[0])}</g>
     <text class="serif" x="66" y="165" fill="{theme['accent']}" font-size="58" font-style="italic" opacity="0">I'm Raz.{visibility(*windows[1])}</text>
-    <text class="mono" x="70" y="150" fill="{theme['primary']}" font-size="20" opacity="0">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;{visibility(*windows[2])}</text>
+    <text class="mono" x="70" y="150" fill="{theme['primary']}" font-size="20" opacity="0">&lt;p&gt;Make a difference to AGI for humanity.&lt;/p&gt;{visibility(*windows[2])}</text>
   </g>
   {cursor(96, 32, frames, total, windows[0], theme['accent'])}
   {cursor(125, 38, frames, total, windows[1], theme['accent'])}
@@ -164,7 +164,7 @@ def hero_svg(theme_name):
     <animate attributeName="opacity" from="0" to="1" begin="{final_start:.2f}s" dur="1.2s" fill="freeze"/>
     <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
     <text class="serif" x="66" y="198" fill="{theme['accent']}" font-size="58" font-style="italic">I'm Raz.</text>
-    <text class="mono" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;</text>
+    <text class="mono" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Make a difference to AGI for humanity.&lt;/p&gt;</text>
     <rect x="70" y="286" width="254" height="50" fill="{theme['primary']}"/>
     <rect x="70" y="286" width="6" height="50" fill="{theme['accent']}"/>
     <text class="mono" x="100" y="318" fill="{theme['surface']}" font-size="14" font-weight="600" letter-spacing="1.5">VIEW RESUME ↗</text>

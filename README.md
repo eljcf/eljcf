@@ -1,9 +1,9 @@
 <div>
 <a href="https://eljcf.github.io/">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=20261120-4" />
-    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg?v=20261120-4" />
-    <img src="assets/hero-light.svg?v=20261120-4" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI. View resume." />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=20261120-5" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg?v=20261120-5" />
+    <img src="assets/hero-light.svg?v=20261120-5" width="100%" alt="Hello world. I'm Raz. Make a difference to AGI for humanity. View resume." />
   </picture>
 </a>
 <a href="https://github.com/eljcf/Gemini-exporter">
