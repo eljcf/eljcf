@@ -19,6 +19,8 @@ jobs:
           outputs: |
             dist/github-snake.svg
             dist/github-snake-dark.svg?palette=github-dark
+      - name: Prepare generated assets
+        run: sudo chown -R $(id -u):$(id -g) dist
       - name: Apply profile theme
         run: |
           python3 .github/scripts/style_snake.py dist/github-snake.svg light
