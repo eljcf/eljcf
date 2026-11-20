@@ -165,25 +165,12 @@ def hero_svg(theme_name):
     <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
     <text class="serif" x="66" y="198" fill="{theme['accent']}" font-size="58" font-style="italic">I'm Raz.</text>
     <text class="mono" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;</text>
+    <rect x="70" y="286" width="254" height="50" fill="{theme['primary']}"/>
+    <rect x="70" y="286" width="6" height="50" fill="{theme['accent']}"/>
+    <text class="mono" x="100" y="318" fill="{theme['surface']}" font-size="14" font-weight="600" letter-spacing="1.5">VIEW RESUME ↗</text>
   </g>
   {monogram(theme)}
   {spine(360, theme, 330)}
-</svg>
-'''
-
-
-def resume_svg(theme_name):
-    theme = THEMES[theme_name]
-    _, _, final_start, _ = typing_timeline()
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 100" width="1600" role="img" aria-label="View resume">
-  <defs><style>{STYLE}</style></defs><rect width="1600" height="100" fill="{theme['surface']}"/>
-  <path class="spine" d="M34 0V100" fill="none" stroke="{theme['construction']}" stroke-width="1.5"/>
-  <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" begin="{final_start:.2f}s" dur="1s" fill="freeze"/>
-    <rect x="70" y="22" width="254" height="52" fill="{theme['primary']}"/>
-    <rect x="70" y="22" width="6" height="52" fill="{theme['accent']}"/>
-    <text class="mono" x="100" y="55" fill="{theme['surface']}" font-size="14" font-weight="600" letter-spacing="1.5">VIEW RESUME ↗</text>
-  </g>
 </svg>
 '''
 
@@ -224,5 +211,5 @@ def tech_svg(theme_name):
 
 if __name__ == "__main__":
     for name in THEMES:
-        for panel, renderer in {"hero": hero_svg, "resume": resume_svg, "work": work_svg, "tech": tech_svg}.items():
+        for panel, renderer in {"hero": hero_svg, "work": work_svg, "tech": tech_svg}.items():
             (OUTPUT_DIR / f"{panel}-{name}.svg").write_text(renderer(name), encoding="utf-8")

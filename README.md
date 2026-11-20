@@ -1,14 +1,9 @@
 <div>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg" />
-  <img src="assets/hero-light.svg" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI." />
-</picture>
 <a href="https://eljcf.github.io/">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/resume-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="assets/resume-light.svg" />
-    <img src="assets/resume-light.svg" width="100%" alt="View resume" />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg" />
+    <img src="assets/hero-light.svg" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI. View resume." />
   </picture>
 </a>
 <a href="https://github.com/eljcf/Gemini-exporter">
