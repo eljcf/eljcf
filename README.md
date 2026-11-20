@@ -6,32 +6,23 @@
 
 **[VIEW RESUME ↗](https://eljcf.github.io/)**
 
-<table>
-<tr>
-<td valign="top" width="55%">
+#### 01 / SELECTED WORK
 
-#### SELECTED WORK
+### [Gemini-exporter](https://github.com/eljcf/Gemini-exporter)
 
-**01 / [Gemini-exporter](https://github.com/eljcf/Gemini-exporter)**  
 完整导出 Gemini 超长对话，并在新对话中恢复上下文。  
 `JavaScript` · `Chrome Extension MV3` · `DOM API`
 
-</td>
-<td valign="top" width="45%">
+<br>
 
-#### TECH STACK
+#### 02 / TECH STACK
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/tech-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="assets/tech-light.svg" />
-  <img src="assets/tech-light.svg" width="100%" alt="Product: AI Product, RAG, Agent Systems. Build: JavaScript, Chrome Extension, DOM API." />
-</picture>
+**Product**　AI Product · RAG · Agent Systems  
+**Build**　JavaScript · Chrome Extension · DOM API
 
-</td>
-</tr>
-</table>
+<br>
 
-#### CONTRIBUTION
+#### 03 / CONTRIBUTION
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake-dark.svg" />
