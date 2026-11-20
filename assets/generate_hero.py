@@ -22,6 +22,27 @@ THEMES = {
 }
 
 PIXEL_GLYPHS = {
+    "A": ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    "B": ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    "C": ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+    "D": ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+    "E": ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    "I": ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    "K": ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+    "L": ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+    "N": ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+    "O": ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+    "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+    "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+    "S": ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+    "T": ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    "U": ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+    "W": ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+    "0": ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
+    "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
+    "2": ["01110", "10001", "00001", "00010", "00100", "01000", "11111"],
+    "3": ["11110", "00001", "00001", "01110", "00001", "00001", "11110"],
+    "/": ["00001", "00010", "00010", "00100", "01000", "01000", "10000"],
     "H": ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
     "e": ["00000", "01110", "10001", "11111", "10000", "01110", "00000"],
     "l": ["01100", "00100", "00100", "00100", "00100", "01110", "00000"],
@@ -111,6 +132,14 @@ def monogram(theme):
 '''
 
 
+def cursor(y, height, frames, total, window, color):
+    x_values = ";".join(f"{70 + width:.1f}" for _, width in frames)
+    times = ";".join(f"{time / total:.5f}" for time, _ in frames)
+    return f'''<rect x="70" y="{y}" width="2" height="{height}" fill="{color}" opacity="0">
+    <animate attributeName="x" values="{x_values}" keyTimes="{times}" calcMode="discrete" dur="{total:.2f}s" fill="freeze"/>{visibility(*window)}
+  </rect>'''
+
+
 def hero_svg(theme_name):
     theme = THEMES[theme_name]
     frames, windows, final_start, total = typing_timeline()
@@ -128,10 +157,9 @@ def hero_svg(theme_name):
     <text class="serif" x="66" y="165" fill="{theme['accent']}" font-size="58" font-style="italic" opacity="0">I'm Raz.{visibility(*windows[1])}</text>
     <text class="mono" x="70" y="150" fill="{theme['primary']}" font-size="20" opacity="0">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;{visibility(*windows[2])}</text>
   </g>
-  <rect x="70" y="103" width="3" height="48" fill="{theme['accent']}" opacity="0">
-    <animate attributeName="x" values="{';'.join(f'{70 + width:.1f}' for _, width in frames)}" keyTimes="{';'.join(f'{time / total:.5f}' for time, _ in frames)}" calcMode="discrete" dur="{total:.2f}s" fill="freeze"/>
-    <animate attributeName="opacity" to="1" begin="0s" dur="0.01s" fill="freeze"/><animate attributeName="opacity" to="0" begin="{final_start:.2f}s" dur="0.01s" fill="freeze"/>
-  </rect>
+  {cursor(96, 32, frames, total, windows[0], theme['accent'])}
+  {cursor(125, 38, frames, total, windows[1], theme['accent'])}
+  {cursor(132, 21, frames, total, windows[2], theme['accent'])}
   <g opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="{final_start:.2f}s" dur="1.2s" fill="freeze"/>
     <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
@@ -146,10 +174,16 @@ def hero_svg(theme_name):
 
 def resume_svg(theme_name):
     theme = THEMES[theme_name]
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 86" width="1600" role="img" aria-label="View resume">
-  <defs><style>{STYLE}</style></defs><rect width="1600" height="86" fill="{theme['surface']}"/>
-  {spine(86, theme, 43)}
-  <text class="mono" x="70" y="49" fill="{theme['primary']}" font-size="14" letter-spacing="1.7">VIEW RESUME ↗</text>
+    _, _, final_start, _ = typing_timeline()
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 100" width="1600" role="img" aria-label="View resume">
+  <defs><style>{STYLE}</style></defs><rect width="1600" height="100" fill="{theme['surface']}"/>
+  <path class="spine" d="M34 0V100" fill="none" stroke="{theme['construction']}" stroke-width="1.5"/>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="{final_start:.2f}s" dur="1s" fill="freeze"/>
+    <rect x="70" y="22" width="254" height="52" fill="{theme['primary']}"/>
+    <rect x="70" y="22" width="6" height="52" fill="{theme['accent']}"/>
+    <text class="mono" x="100" y="55" fill="{theme['surface']}" font-size="14" font-weight="600" letter-spacing="1.5">VIEW RESUME ↗</text>
+  </g>
 </svg>
 '''
 
@@ -159,7 +193,7 @@ def work_svg(theme_name):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 300" width="1600" role="img" aria-label="Public repository: Gemini-exporter">
   <defs><style>{STYLE}</style></defs><rect width="1600" height="300" fill="{theme['surface']}"/>
   {spine(300, theme, 48)}
-  <text class="mono" x="70" y="54" fill="{theme['secondary']}" font-size="11" letter-spacing="1.8">01 / SELECTED WORK</text>
+  <g>{pixel_text("01 / SELECTED WORK", 70, 34, 3, theme['secondary'])}</g>
   <rect x="70" y="85" width="1450" height="175" fill="{theme['surface_alt']}" stroke="{theme['construction']}" stroke-width="1.5"/>
   <rect x="70" y="85" width="5" height="175" fill="{theme['accent']}"/>
   <text class="mono" x="105" y="119" fill="{theme['secondary']}" font-size="10" letter-spacing="1.5">PUBLIC REPOSITORY / 01</text>
@@ -176,7 +210,7 @@ def tech_svg(theme_name):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 230" width="1600" role="img" aria-label="Tech stack">
   <defs><style>{STYLE}</style></defs><rect width="1600" height="230" fill="{theme['surface_alt']}"/>
   {spine(230, theme, 48)}
-  <text class="mono" x="70" y="54" fill="{theme['secondary']}" font-size="11" letter-spacing="1.8">02 / TECH STACK</text>
+  <g>{pixel_text("02 / TECH STACK", 70, 34, 3, theme['secondary'])}</g>
   <g class="mono" font-size="11" letter-spacing="1.5" fill="{theme['secondary']}">
     <text x="70" y="116">PRODUCT</text><text x="70" y="174">BUILD</text>
   </g>
