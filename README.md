@@ -1,12 +1,11 @@
-<div align="center">
-
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/profile-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="assets/profile-light.svg" />
-  <img src="assets/profile-light.svg" width="100%" alt="Raz — AI Product, RAG, Agents and Developer Tools. From real problems to working AI products." />
+  <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/header-light.png" />
+  <img src="assets/header-light.png" width="100%" alt="Code-generated flow field in deep green and maple red" />
 </picture>
 
-</div>
+**Raz** · AI Product / RAG / Agents / Developer Tools  
+从真实问题出发，把 AI 能力做成可用、可验证的产品。
 
 ## 🔭 Focus
 
