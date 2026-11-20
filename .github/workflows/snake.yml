@@ -25,6 +25,8 @@ jobs:
         run: |
           python3 .github/scripts/style_snake.py dist/github-snake.svg light
           python3 .github/scripts/style_snake.py dist/github-snake-dark.svg dark
+          cp dist/github-snake.svg dist/profile-snake.svg
+          cp dist/github-snake-dark.svg dist/profile-snake-dark.svg
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output

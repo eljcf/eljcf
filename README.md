@@ -19,8 +19,8 @@
   <img src="assets/tech-light.svg" width="100%" alt="Tech stack" />
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake-dark.svg?v=20261120-3" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-3" />
-  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-3" width="100%" alt="Contribution snake" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/profile-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/profile-snake.svg" />
+  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/profile-snake.svg" width="100%" alt="Contribution snake" />
 </picture>
 </div>
