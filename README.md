@@ -1,30 +1,31 @@
+<div>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg" />
-  <img src="assets/hero-light.svg" width="100%" alt="Raz — 吴禹佟, AI Product Manager. RAG, Agents and Developer Tools." />
+  <img src="assets/hero-light.svg" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI." />
 </picture>
-
-**[VIEW RESUME ↗](https://eljcf.github.io/)**
-
-#### 01 / SELECTED WORK
-
-### [Gemini-exporter](https://github.com/eljcf/Gemini-exporter)
-
-完整导出 Gemini 超长对话，并在新对话中恢复上下文。  
-`JavaScript` · `Chrome Extension MV3` · `DOM API`
-
-<br>
-
-#### 02 / TECH STACK
-
-**Product**　AI Product · RAG · Agent Systems  
-**Build**　JavaScript · Chrome Extension · DOM API
-
-<br>
-
-#### 03 / CONTRIBUTION
-
+<a href="https://eljcf.github.io/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/resume-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/resume-light.svg" />
+    <img src="assets/resume-light.svg" width="100%" alt="View resume" />
+  </picture>
+</a>
+<a href="https://github.com/eljcf/Gemini-exporter">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/work-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/work-light.svg" />
+    <img src="assets/work-light.svg" width="100%" alt="Selected work: Gemini-exporter" />
+  </picture>
+</a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/tech-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/tech-light.svg" />
+  <img src="assets/tech-light.svg" width="100%" alt="Tech stack" />
+</picture>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake-dark.svg" />
-  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg" alt="Contribution snake" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg" />
+  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg" width="100%" alt="Contribution snake" />
 </picture>
+</div>
