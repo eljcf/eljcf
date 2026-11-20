@@ -33,6 +33,6 @@
 一条会自己找路吃的贪吃蛇——每个 commit 是一颗食物，它用 BFS 寻路、避开自己的身体，吃一颗长一节。由 [snake-and-commits](https://github.com/dahan8473/snake-and-commits) 每日自动更新。
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/snake.svg" />
-  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/snake.svg" alt="Contribution snake" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/refs/heads/output/snake.svg" />
+  <img src="https://raw.githubusercontent.com/eljcf/eljcf/refs/heads/output/snake.svg" alt="Contribution snake" />
 </picture>
