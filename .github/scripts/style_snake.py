@@ -60,15 +60,16 @@ def main():
     )
     svg = re.sub(r'height="[\d.]+"', f'height="{new_height:g}"', svg, count=1)
 
-    thread_x = min_x + width * 0.925
+    spine_x = min_x + 16
     insert = f'''
 <rect x="{min_x:g}" y="{new_y:g}" width="{width:g}" height="{new_height:g}" fill="{theme['surface']}"/>
 <style>
   .profile-thread {{ stroke-dasharray: 9 15; animation: profile-drift 12s linear infinite; }}
   @keyframes profile-drift {{ to {{ stroke-dashoffset: -96; }} }}
 </style>
-<text x="{min_x + 32:g}" y="{min_y - 28:g}" fill="{theme['secondary']}" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.8">03 / CONTRIBUTION</text>
-<path class="profile-thread" d="M{thread_x:g} {new_y:g}V{min_y:g}" fill="none" stroke="{theme['accent']}" stroke-width="2" stroke-opacity="0.65"/>
+<path class="profile-thread" d="M{spine_x:g} {new_y:g}V{min_y:g}" fill="none" stroke="{theme['secondary']}" stroke-width="1.5" stroke-opacity="0.65"/>
+<circle cx="{spine_x:g}" cy="{min_y - 28:g}" r="4" fill="{theme['accent']}"/>
+<text x="{min_x + 48:g}" y="{min_y - 24:g}" fill="{theme['secondary']}" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.8">03 / CONTRIBUTION</text>
 '''
     opening = re.search(r"<svg\b[^>]*>", svg)
     if not opening:

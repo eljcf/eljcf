@@ -36,12 +36,8 @@ PIXEL_GLYPHS = {
 STYLE = '''
   .mono { font-family: "SFMono-Regular", Menlo, Consolas, monospace; }
   .serif { font-family: Georgia, "Times New Roman", serif; }
-  .thread { stroke-dasharray: 9 15; animation: drift 12s linear infinite; }
-  .reveal-two { animation: reveal-two 4s ease both; }
-  .reveal-three { animation: reveal-three 4s ease both; }
-  @keyframes drift { to { stroke-dashoffset: -96; } }
-  @keyframes reveal-two { 0%,18% { opacity:0; } 36%,100% { opacity:1; } }
-  @keyframes reveal-three { 0%,48% { opacity:0; } 68%,100% { opacity:1; } }
+  .spine { stroke-dasharray: 3 10; animation: route 14s linear infinite; }
+  @keyframes route { to { stroke-dashoffset: -52; } }
 '''
 
 
@@ -53,15 +49,51 @@ def pixel_text(text, x, y, scale, color):
         for row, line in enumerate(glyph):
             for column, bit in enumerate(line):
                 if bit == "1":
-                    rects.append(
-                        f'<rect x="{cursor + column * scale}" y="{y + row * scale}" width="{scale}" height="{scale}" fill="{color}"/>'
-                    )
+                    rects.append(f'<rect x="{cursor + column * scale}" y="{y + row * scale}" width="{scale}" height="{scale}" fill="{color}"/>')
         cursor += 6 * scale
     return "".join(rects)
 
 
-def thread(path, color, opacity=0.72):
-    return f'<path class="thread" d="{path}" fill="none" stroke="{color}" stroke-width="2" stroke-opacity="{opacity}"/>'
+def typing_timeline():
+    sentences = [
+        {"count": 12, "width": 36.0, "type": 0.075, "delete": 0.045},
+        {"count": 8, "width": 34.0, "type": 0.09, "delete": 0.05},
+        {"count": 31, "width": 12.0, "type": 0.05, "delete": 0.028},
+    ]
+    frames = [(0.0, 0.0)]
+    windows = []
+    time = 0.0
+    for sentence in sentences:
+        start = time
+        for index in range(1, sentence["count"] + 1):
+            time += sentence["type"]
+            frames.append((time, index * sentence["width"]))
+        time += 0.48
+        frames.append((time, sentence["count"] * sentence["width"]))
+        for index in range(sentence["count"] - 1, -1, -1):
+            time += sentence["delete"]
+            frames.append((time, index * sentence["width"]))
+        windows.append((start, time))
+        time += 0.22
+        frames.append((time, 0.0))
+    final_start = time + 0.25
+    total = final_start + 1.5
+    return frames, windows, final_start, total
+
+
+def clip_animation(frames, total):
+    times = ";".join(f"{time / total:.5f}" for time, _ in frames)
+    widths = ";".join(f"{width:.1f}" for _, width in frames)
+    return f'<animate attributeName="width" values="{widths}" keyTimes="{times}" calcMode="discrete" dur="{total:.2f}s" fill="freeze"/>'
+
+
+def visibility(start, end):
+    return f'<animate attributeName="opacity" to="1" begin="{start:.2f}s" dur="0.01s" fill="freeze"/><animate attributeName="opacity" to="0" begin="{end:.2f}s" dur="0.01s" fill="freeze"/>'
+
+
+def spine(height, theme, node_y):
+    return f'''<path class="spine" d="M34 0V{height}" fill="none" stroke="{theme['construction']}" stroke-width="1.5"/>
+  <circle cx="34" cy="{node_y}" r="4" fill="{theme['accent']}"/>'''
 
 
 def monogram(theme):
@@ -69,9 +101,8 @@ def monogram(theme):
   <g fill="none" stroke="{theme['construction']}" stroke-width="1">
     <circle cx="1255" cy="105" r="76"/><circle cx="1255" cy="105" r="45"/>
     <path d="M1080 105H1450M1160 30V270M1115 250H1405M1160 150H1395"/>
-    <path d="M1160 55L1375 250M1160 250L1330 55" stroke-dasharray="3 7"/>
   </g>
-  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+  <g fill="none" stroke-linecap="square">
     <path d="M1160 250V55H1255" stroke="{theme['primary']}" stroke-width="5"/>
     <path d="M1255 55C1345 55 1345 150 1255 150H1160" stroke="{theme['accent']}" stroke-width="5"/>
     <path d="M1250 150L1375 250" stroke="{theme['primary']}" stroke-width="5"/>
@@ -82,18 +113,33 @@ def monogram(theme):
 
 def hero_svg(theme_name):
     theme = THEMES[theme_name]
+    frames, windows, final_start, total = typing_timeline()
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 360" width="1600" role="img" aria-label="Hello world. I'm Raz. Product Manager for AGI.">
-  <defs><style>{STYLE}</style></defs>
+  <defs>
+    <style>{STYLE}</style>
+    <clipPath id="typing-clip"><rect x="70" y="72" width="0" height="115">{clip_animation(frames, total)}</rect></clipPath>
+  </defs>
   <rect width="1600" height="360" fill="{theme['surface']}"/>
   <g class="mono" font-size="11" letter-spacing="2.0" fill="{theme['secondary']}">
-    <text x="70" y="45">AI PRODUCT MANAGER</text>
-    <text x="1530" y="45" text-anchor="end">RAZ / 2026</text>
+    <text x="70" y="45">AI PRODUCT MANAGER</text><text x="1530" y="45" text-anchor="end">RAZ / 2026</text>
   </g>
-  <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
-  <text class="serif reveal-two" x="66" y="198" fill="{theme['accent']}" font-size="58" font-style="italic">I'm Raz.</text>
-  <text class="mono reveal-three" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;</text>
+  <g clip-path="url(#typing-clip)">
+    <g opacity="0">{pixel_text("Hello world.", 70, 90, 6, theme['primary'])}{visibility(*windows[0])}</g>
+    <text class="serif" x="66" y="165" fill="{theme['accent']}" font-size="58" font-style="italic" opacity="0">I'm Raz.{visibility(*windows[1])}</text>
+    <text class="mono" x="70" y="150" fill="{theme['primary']}" font-size="20" opacity="0">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;{visibility(*windows[2])}</text>
+  </g>
+  <rect x="70" y="103" width="3" height="48" fill="{theme['accent']}" opacity="0">
+    <animate attributeName="x" values="{';'.join(f'{70 + width:.1f}' for _, width in frames)}" keyTimes="{';'.join(f'{time / total:.5f}' for time, _ in frames)}" calcMode="discrete" dur="{total:.2f}s" fill="freeze"/>
+    <animate attributeName="opacity" to="1" begin="0s" dur="0.01s" fill="freeze"/><animate attributeName="opacity" to="0" begin="{final_start:.2f}s" dur="0.01s" fill="freeze"/>
+  </rect>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="{final_start:.2f}s" dur="1.2s" fill="freeze"/>
+    <g>{pixel_text("Hello world.", 70, 72, 6, theme['primary'])}</g>
+    <text class="serif" x="66" y="198" fill="{theme['accent']}" font-size="58" font-style="italic">I'm Raz.</text>
+    <text class="mono" x="70" y="253" fill="{theme['primary']}" font-size="20">&lt;p&gt;Product Manager for AGI.&lt;/p&gt;</text>
+  </g>
   {monogram(theme)}
-  {thread("M1255 150 C1450 195 1310 285 1480 360", theme['accent'])}
+  {spine(360, theme, 330)}
 </svg>
 '''
 
@@ -101,35 +147,35 @@ def hero_svg(theme_name):
 def resume_svg(theme_name):
     theme = THEMES[theme_name]
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 86" width="1600" role="img" aria-label="View resume">
-  <defs><style>{STYLE}</style></defs>
-  <rect width="1600" height="86" fill="{theme['surface']}"/>
-  {thread("M1480 0V86", theme['accent'])}
-  <rect x="70" y="38" width="8" height="8" fill="{theme['accent']}"/>
-  <text class="mono" x="96" y="49" fill="{theme['primary']}" font-size="14" letter-spacing="1.7">VIEW RESUME ↗</text>
+  <defs><style>{STYLE}</style></defs><rect width="1600" height="86" fill="{theme['surface']}"/>
+  {spine(86, theme, 43)}
+  <text class="mono" x="70" y="49" fill="{theme['primary']}" font-size="14" letter-spacing="1.7">VIEW RESUME ↗</text>
 </svg>
 '''
 
 
 def work_svg(theme_name):
     theme = THEMES[theme_name]
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 280" width="1600" role="img" aria-label="Selected work: Gemini-exporter">
-  <defs><style>{STYLE}</style></defs>
-  <rect width="1600" height="280" fill="{theme['surface']}"/>
-  {thread("M1480 0 C1480 95 1390 75 1370 155 C1345 225 460 185 120 280", theme['accent'], 0.5)}
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 300" width="1600" role="img" aria-label="Public repository: Gemini-exporter">
+  <defs><style>{STYLE}</style></defs><rect width="1600" height="300" fill="{theme['surface']}"/>
+  {spine(300, theme, 48)}
   <text class="mono" x="70" y="54" fill="{theme['secondary']}" font-size="11" letter-spacing="1.8">01 / SELECTED WORK</text>
-  <text class="serif" x="66" y="126" fill="{theme['primary']}" font-size="46">Gemini-exporter</text>
-  <text x="70" y="170" fill="{theme['secondary']}" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="18">完整导出 Gemini 超长对话，并在新对话中恢复上下文。</text>
-  <text class="mono" x="70" y="211" fill="{theme['primary']}" font-size="14">JavaScript · Chrome Extension MV3 · DOM API</text>
+  <rect x="70" y="85" width="1450" height="175" fill="{theme['surface_alt']}" stroke="{theme['construction']}" stroke-width="1.5"/>
+  <rect x="70" y="85" width="5" height="175" fill="{theme['accent']}"/>
+  <text class="mono" x="105" y="119" fill="{theme['secondary']}" font-size="10" letter-spacing="1.5">PUBLIC REPOSITORY / 01</text>
+  <text class="mono" x="1480" y="119" text-anchor="end" fill="{theme['secondary']}" font-size="10" letter-spacing="1.5">GITHUB ↗</text>
+  <text class="serif" x="101" y="170" fill="{theme['primary']}" font-size="39">Gemini-exporter</text>
+  <text x="105" y="207" fill="{theme['secondary']}" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="17">完整导出 Gemini 超长对话，并在新对话中恢复上下文。</text>
+  <text class="mono" x="105" y="239" fill="{theme['primary']}" font-size="13">JavaScript · Chrome Extension MV3 · DOM API</text>
 </svg>
 '''
 
 
 def tech_svg(theme_name):
     theme = THEMES[theme_name]
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 250" width="1600" role="img" aria-label="Tech stack">
-  <defs><style>{STYLE}</style></defs>
-  <rect width="1600" height="250" fill="{theme['surface_alt']}"/>
-  {thread("M120 0 C120 85 255 60 315 140 C380 220 1330 135 1480 250", theme['accent'], 0.5)}
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 230" width="1600" role="img" aria-label="Tech stack">
+  <defs><style>{STYLE}</style></defs><rect width="1600" height="230" fill="{theme['surface_alt']}"/>
+  {spine(230, theme, 48)}
   <text class="mono" x="70" y="54" fill="{theme['secondary']}" font-size="11" letter-spacing="1.8">02 / TECH STACK</text>
   <g class="mono" font-size="11" letter-spacing="1.5" fill="{theme['secondary']}">
     <text x="70" y="116">PRODUCT</text><text x="70" y="174">BUILD</text>
@@ -144,10 +190,5 @@ def tech_svg(theme_name):
 
 if __name__ == "__main__":
     for name in THEMES:
-        for panel, renderer in {
-            "hero": hero_svg,
-            "resume": resume_svg,
-            "work": work_svg,
-            "tech": tech_svg,
-        }.items():
+        for panel, renderer in {"hero": hero_svg, "resume": resume_svg, "work": work_svg, "tech": tech_svg}.items():
             (OUTPUT_DIR / f"{panel}-{name}.svg").write_text(renderer(name), encoding="utf-8")

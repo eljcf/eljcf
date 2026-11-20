@@ -2,15 +2,10 @@
   <defs><style>
   .mono { font-family: "SFMono-Regular", Menlo, Consolas, monospace; }
   .serif { font-family: Georgia, "Times New Roman", serif; }
-  .thread { stroke-dasharray: 9 15; animation: drift 12s linear infinite; }
-  .reveal-two { animation: reveal-two 4s ease both; }
-  .reveal-three { animation: reveal-three 4s ease both; }
-  @keyframes drift { to { stroke-dashoffset: -96; } }
-  @keyframes reveal-two { 0%,18% { opacity:0; } 36%,100% { opacity:1; } }
-  @keyframes reveal-three { 0%,48% { opacity:0; } 68%,100% { opacity:1; } }
-</style></defs>
-  <rect width="1600" height="86" fill="#F2F3EE"/>
-  <path class="thread" d="M1480 0V86" fill="none" stroke="#B54A38" stroke-width="2" stroke-opacity="0.72"/>
-  <rect x="70" y="38" width="8" height="8" fill="#B54A38"/>
-  <text class="mono" x="96" y="49" fill="#173C32" font-size="14" letter-spacing="1.7">VIEW RESUME ↗</text>
+  .spine { stroke-dasharray: 3 10; animation: route 14s linear infinite; }
+  @keyframes route { to { stroke-dashoffset: -52; } }
+</style></defs><rect width="1600" height="86" fill="#F2F3EE"/>
+  <path class="spine" d="M34 0V86" fill="none" stroke="#B8C2BA" stroke-width="1.5"/>
+  <circle cx="34" cy="43" r="4" fill="#B54A38"/>
+  <text class="mono" x="70" y="49" fill="#173C32" font-size="14" letter-spacing="1.7">VIEW RESUME ↗</text>
 </svg>
