@@ -21,8 +21,11 @@
 
 #### TECH STACK
 
-**Product**　AI Product · RAG · Agent Systems  
-**Build**　JavaScript · Chrome Extension · DOM API
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/tech-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/tech-light.svg" />
+  <img src="assets/tech-light.svg" width="100%" alt="Product: AI Product, RAG, Agent Systems. Build: JavaScript, Chrome Extension, DOM API." />
+</picture>
 
 </td>
 </tr>

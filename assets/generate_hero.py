@@ -157,7 +157,39 @@ def hero_svg(theme_name, paths):
 '''
 
 
+def tech_svg(theme_name, paths):
+    theme = THEMES[theme_name]
+    lines = []
+    for path in paths:
+        color = theme["accent"] if path["accent"] else theme["line"]
+        lines.append(
+            f'<path d="{path["d"]}" fill="none" stroke="{color}" stroke-opacity="{path["opacity"]:.2f}" stroke-width="{path["width"]}"/>'
+        )
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 190" width="620" role="img" aria-label="Tech stack: AI Product, RAG, Agent Systems, JavaScript, Chrome Extension and DOM API">
+  <defs>
+    <linearGradient id="tech-fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="white" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="white" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.75"/>
+    </linearGradient>
+    <mask id="tech-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="620" height="190"><rect width="620" height="190" fill="url(#tech-fade)"/></mask>
+  </defs>
+  <g mask="url(#tech-mask)"><g transform="translate(-320 -12) scale(0.72 0.82)">{''.join(lines)}</g></g>
+  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.8" fill="{theme['secondary']}">
+    <text x="0" y="27">PRODUCT</text>
+    <text x="0" y="100">BUILD</text>
+  </g>
+  <g font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" fill="{theme['primary']}">
+    <text x="0" y="55" font-size="17">AI Product · RAG · Agent Systems</text>
+    <text x="0" y="128" font-size="17">JavaScript · Chrome Extension</text>
+    <text x="0" y="156" font-size="17">DOM API</text>
+  </g>
+</svg>
+'''
+
+
 if __name__ == "__main__":
     paths = line_art()
     for name in THEMES:
         (OUTPUT_DIR / f"hero-{name}.svg").write_text(hero_svg(name, paths), encoding="utf-8")
+        (OUTPUT_DIR / f"tech-{name}.svg").write_text(tech_svg(name, paths), encoding="utf-8")
