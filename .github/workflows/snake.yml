@@ -13,26 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: Platane/snk@v3
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-snake.svg
-            dist/github-snake-dark.svg?palette=github-dark
-      - name: Prepare generated assets
-        run: sudo chown -R $(id -u):$(id -g) dist
       - name: Fetch current-year contributions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          mkdir -p dist
           year=$(date -u +%Y)
           gh api graphql -f query="query { user(login: \"${{ github.repository_owner }}\") { contributionsCollection(from: \"${year}-01-01T00:00:00Z\", to: \"${year}-12-31T23:59:59Z\") { contributionCalendar { totalContributions weeks { contributionDays { date contributionCount contributionLevel } } } } } }" > dist/contributions.json
-      - name: Apply profile theme
+      - name: Generate DFS snake
         run: |
-          python3 .github/scripts/style_snake.py dist/github-snake.svg light dist/contributions.json
-          python3 .github/scripts/style_snake.py dist/github-snake-dark.svg dark dist/contributions.json
-          cp dist/github-snake.svg dist/profile-snake-2026.svg
-          cp dist/github-snake-dark.svg dist/profile-snake-2026-dark.svg
+          python3 .github/scripts/generate_snake.py dist/contributions.json light dist/dfs-snake-2026.svg
+          python3 .github/scripts/generate_snake.py dist/contributions.json dark dist/dfs-snake-2026-dark.svg
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
