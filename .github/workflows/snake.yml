@@ -20,10 +20,10 @@ jobs:
           mkdir -p dist
           year=$(date -u +%Y)
           gh api graphql -f query="query { user(login: \"${{ github.repository_owner }}\") { contributionsCollection(from: \"${year}-01-01T00:00:00Z\", to: \"${year}-12-31T23:59:59Z\") { contributionCalendar { totalContributions weeks { contributionDays { date contributionCount contributionLevel } } } } } }" > dist/contributions.json
-      - name: Generate DFS snake
+      - name: Generate reference BFS snake
         run: |
-          python3 .github/scripts/generate_snake.py dist/contributions.json light dist/dfs-snake-2026.svg
-          python3 .github/scripts/generate_snake.py dist/contributions.json dark dist/dfs-snake-2026-dark.svg
+          python3 .github/scripts/generate_snake.py --input dist/contributions.json --theme light --output dist/contribution-snake.svg
+          python3 .github/scripts/generate_snake.py --input dist/contributions.json --theme dark --output dist/contribution-snake-dark.svg
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output

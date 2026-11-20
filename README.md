@@ -19,8 +19,8 @@
   <img src="assets/tech-light.svg" width="100%" alt="Tech stack" />
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/dfs-snake-2026-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/dfs-snake-2026.svg" />
-  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/dfs-snake-2026.svg" width="100%" alt="Contribution snake" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/contribution-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/contribution-snake.svg" />
+  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/contribution-snake.svg" width="100%" alt="Contribution snake" />
 </picture>
 </div>
