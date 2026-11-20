@@ -73,7 +73,7 @@ def main():
 </style>
 <path class="profile-thread" d="M{spine_x:g} {new_y:g}V{min_y:g}" fill="none" stroke="{theme['secondary']}" stroke-width="1.5" stroke-opacity="0.65"/>
 <circle cx="{spine_x:g}" cy="{min_y - 35:g}" r="4" fill="{theme['accent']}"/>
-<g>{pixel_text("03 / CONTRIBUTION", int(min_x + 48), int(min_y - 42), 2, theme['secondary'])}</g>
+<g>{pixel_text("03 / CONTRIBUTION", int(min_x + 48), int(min_y - 42), 3 * width / 1600, theme['secondary'])}</g>
 '''
     opening = re.search(r"<svg\b[^>]*>", svg)
     if not opening:

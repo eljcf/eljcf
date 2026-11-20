@@ -1,9 +1,9 @@
 <div>
 <a href="https://eljcf.github.io/">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=20261120-2" />
-    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg?v=20261120-2" />
-    <img src="assets/hero-light.svg?v=20261120-2" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI. View resume." />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=20261120-3" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg?v=20261120-3" />
+    <img src="assets/hero-light.svg?v=20261120-3" width="100%" alt="Hello world. I'm Raz. Product Manager for AGI. View resume." />
   </picture>
 </a>
 <a href="https://github.com/eljcf/Gemini-exporter">
@@ -19,8 +19,8 @@
   <img src="assets/tech-light.svg" width="100%" alt="Tech stack" />
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake-dark.svg?v=20261120-2" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-2" />
-  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-2" width="100%" alt="Contribution snake" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake-dark.svg?v=20261120-3" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-3" />
+  <img src="https://raw.githubusercontent.com/eljcf/eljcf/output/github-snake.svg?v=20261120-3" width="100%" alt="Contribution snake" />
 </picture>
 </div>
